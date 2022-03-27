@@ -1,5 +1,4 @@
 static LastRequest g_LR;
-bool stopReset = false;
 
 //static char g_strCustomLR[MAX_LRNAME_LENGTH];
 
@@ -31,24 +30,14 @@ public void Custom_OnClientSayCommand(int client, const char[] sCommand, const c
 	JBPlayer base = JBPlayer(client);
 	if (!IsChatTrigger() && g_LR != null && base.iCustom > 0)
 	{
-		char hud[MAX_LRNAME_LENGTH];
-		g_LR.GetHudName(hud, sizeof(hud));
-		if(hud[0] != '\0') stopReset = true;
-		
 		g_LR.SetHudName(cArgs);
 //		strcopy(g_strCustomLR, sizeof(g_strCustomLR), cArgs);
-		CPrintToChatAll("%t %t", "Plugin Tag", "Custom Activate", cArgs);
+		CPrintToChat(client, "%t %t", "Plugin Tag", "Custom Activate", cArgs);
 		base.iCustom = 0;
 	}
 }
 
 public void Custom_OnRoundEnd(LastRequest lr, Event event)
 {
-	if(stopReset)
-	{
-		stopReset = false;
-		return;
-	}
-	
 	lr.SetHudName("");
 }
